@@ -32,7 +32,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late http.Client httpClient;
   late Web3Client ethClient;
-  final myAddress = "0x2e955B5F15D3c167a6549ac18e350b2A0e775aD1";
+  final myAddress = "0xa9b8f5426b3dF8022d4489C0d3dc00ce2E25584A";
   bool value = true;
   double _value = 1.0;
   var mydata;
@@ -40,12 +40,12 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     httpClient = http.Client();
-    ethClient = Web3Client("HTTP://192.168.29.10:7545", httpClient);
+    ethClient = Web3Client("https://ropsten.infura.io/v3/999c249de92c4374a354fed756fe8e8b", httpClient);
     getBalance(myAddress);
   }
   Future<DeployedContract> loadContract() async{
     String abi=await rootBundle.loadString("assets/abi.json");
-    String contractAddress="0xEA10AD9504A0Df47033b72eAfb88e5dC167D116d";
+    String contractAddress="0x41EF315575e55860d3a42AfCc00149C95a82D1c8";
     final contract=DeployedContract(ContractAbi.fromJson(abi, "ethwalltrial"),EthereumAddress.fromHex(contractAddress));
     return contract;
   }
@@ -59,7 +59,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> getBalance(String targetAdress) async {
     EthereumAddress address = EthereumAddress.fromHex(targetAdress);
     List<dynamic> result=await query("getBalance", []);
-    mydata=result[0];
+    mydata= result[0];
+
     value=true;
     setState(() {
 
@@ -115,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     activeColor: Colors.teal,
                     inactiveColor: Color(0xffFFFDD0),
                     min: 0,
-                    max: 100,
+                    max: 1,
                     value: _value,
                     showLabels: true,
                     enableTooltip: true,
@@ -140,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ],
                         )),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {print(mydata);},
                       child: Row(
                         children: [
                           Icon(Icons.call_made_rounded),
